@@ -65,6 +65,13 @@ class accountsController extends http\controller
         self::getTemplate('edit_account', $record);
 
     }
+    public static function delete()
+    {
+        $record = accounts::findOne($_REQUEST['id']);
+        $record->delete();
+        header("Location: index.php?page=accounts&action=all");
+    }
+
 
     //this is to login, here is where you find the account and allow login or deny.
     public static function login()
