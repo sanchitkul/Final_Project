@@ -26,6 +26,12 @@ class tasksController extends http\controller
         self::getTemplate('all_tasks', $records);
 
     }
+
+    public static function one()
+    {
+        $record = todos::findOne(2);
+        self::getTemplate('one_task',$record);
+    }
     //to call the show function the url is called with a post to: index.php?page=task&action=create
     //this is a function to create new tasks
 
