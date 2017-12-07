@@ -28,7 +28,23 @@ final class account extends \database\model
         $records = todos::findAll();
         print_r($records);
         return $records;
+        $records = todos::findOne(2);
+        print_r($records);
     }
+
+    public function validate()
+    {
+        $valid = TRUE;
+        echo 'myemail: ' . $this->email;
+        if($this->email == ' '){
+            $valid = FALSE;
+            echo ' nothing in email';
+
+        }
+        
+        return $valid;
+    }
+
     //add a method to compare the passwords this is where bcrypt should be done and it should return TRUE / FALSE for login
     public static function checkPassword($password) {}
 
