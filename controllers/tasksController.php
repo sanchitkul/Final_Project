@@ -14,7 +14,7 @@ class tasksController extends http\controller
     //to call the show function the url is index.php?page=task&action=show
     public static function show()
     {
-        $record = todos::findOne($_REQUEST['id']);
+        $record = todos::findOne($_REQUEST['3']);
         self::getTemplate('show_task', $record);
     }
 
@@ -23,7 +23,11 @@ class tasksController extends http\controller
     public static function all()
     {
         $records = todos::findAll();
+        //session_start();
+        //$records = todos::findTasksbyID('$uderID')
+        //$records
         self::getTemplate('all_tasks', $records);
+        //$userID = $_SESSION['userID'];
 
     }
 
@@ -54,17 +58,19 @@ class tasksController extends http\controller
     //this would be for the post for sending the task edit form
     public static function store()
     {
-
+        session_start();
 
         //$record = todos::findOne($_REQUEST['id']);
         //$record->body = $_REQUEST['body'];
         //$record->save();
         $upRecord = new todo();
+        $record->body = $_REQUEST['body'];
+        
         $upRecord->id = $_REQUEST['id'];
         $upRecord->owneremail = $_POST['owneremail'];
         $upRecord->duedate = $_POST['duedate'];
         $upRecord->message = $_POST['message'];
-        //$upRecord->save();
+        $upRecord->save();
         echo $upRecord;
         self::getTemplate('show_task', $record);
         print_r($_POST);
