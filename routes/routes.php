@@ -94,7 +94,7 @@ class routes
         $routes[] = $route;
 
         //YOU WILL NEED TO ADD MORE ROUTES
-        //Delete tasks
+
         $route = new route();
         $route->http_method = 'POST';
         $route->action = 'delete';
@@ -103,36 +103,16 @@ class routes
         $route->method = 'delete';
         $routes[] = $route;
 
-        //Delete accounts
-        $route = new route();
+       /* $route= new route();
         $route->http_method = 'POST';
-        $route->action = 'delete';
-        $route->page = 'accounts';
-        $route->controller = 'accountsController';
-        $route->method = 'delete';
-        $routes[] = $route;
-
-        //Edit Tasks
-        $route = new route();
-        $route->http_method = 'POST';
-        $route->action = 'edit';
+        $route->action = 'show';
         $route->page = 'tasks';
         $route->controller = 'tasksController';
-        $route->method = 'edit';
+        $route->method = 'show';
         $routes[] = $route;
-        //Edit Accounts
-       $route = new route();
-        $route->http_method = 'POST';
-        $route->action = 'edit';
-        $route->page = 'accounts';
-        $route->controller = 'accountsController';
-        $route->method = 'edit';
-        $routes[] = $route;
-
-
+        */
         return $routes;
     }
-
 }
 
 //this is the route prototype object  you would make a factory to return this
@@ -140,7 +120,8 @@ class routes
 class route
 {
     public $page;
-    public $action; 
+    public $action;
     public $method;
     public $controller;
 }
+
