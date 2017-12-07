@@ -49,6 +49,9 @@ abstract class model
         $sql = 'INSERT INTO ' . $tableName . ' (' . $columnString . ') VALUES (' . $valueString . ')';
         return $sql;
     }
+    public function validate() {
+        return TRUE;
+    }
 
     private function update()
     {
@@ -82,3 +85,4 @@ abstract class model
 }
 
 ?>
+
