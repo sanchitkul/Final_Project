@@ -24,7 +24,12 @@ class accountsController extends http\controller
     //to call the show function the url is called with a post to: index.php?page=task&action=create
     //this is a function to create new tasks
     //you should check the notes on the project posted in moodle for how to use active record here
+    public static function signup()
+    {
+        self::getTemplate('new_user');
+    }
     //this is to register an account i.e. insert a new account
+  
     public static function register()
     {
         //https://www.sitepoint.com/why-you-should-use-bcrypt-to-hash-stored-passwords/
