@@ -28,8 +28,7 @@ final class account extends \database\model
         $records = todos::findAll();
         print_r($records);
         return $records;
-        $records = todos::findOne(2);
-        print_r($records);
+        
     }
 
     public function validate()
@@ -44,9 +43,20 @@ final class account extends \database\model
         
         return $valid;
     }
-
+    
+    public function setPassword($password)
+    {
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        return $password;
+    }
     //add a method to compare the passwords this is where bcrypt should be done and it should return TRUE / FALSE for login
-    public static function checkPassword($password) {}
+    public static function checkPassword($password) 
+    {
+    
+    $checkpsw = password_verify($password, $this->password);
+    print_r($checkpsw);
+    return $checkpsw;
+    }
 
 
 }
