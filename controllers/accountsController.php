@@ -88,6 +88,11 @@ class accountsController extends http\controller
         $record->delete();
         header("Location: index.php?page=accounts&action=all");
     }
+    public static function logout()
+    {
+        session_destroy();
+        header('Location: index.php');
+    }
     //this is to login, here is where you find the account and allow login or deny.
     public static function login()
     {
