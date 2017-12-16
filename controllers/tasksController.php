@@ -82,15 +82,15 @@ class tasksController extends http\controller
    public static function delete()
    {
         $record = todos::findOne($_REQUEST['id']);
-		$record->delete();
-        echo 'Deleted todo id: ' . $_REQUEST['id'];
+	$record->delete();
      	$records = todos::findAll();
-        self::getTemplate('all_tasks', $records);
+        header("Location: index.php?page=tasks&action=all");
+	   
     }
     
     private static function validate($record) 
-    {
-			return true;
+	{
+	    return true;
 	}
 
 }
