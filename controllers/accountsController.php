@@ -18,13 +18,8 @@ class accountsController extends http\controller
     //to call the show function the url is index.php?page=accounts&action=all
     public static function all()
     {
-       session_start();
-		$userID = $_SESSION["userID"];
-		if(!$userID) {
-			header("Location: index.php?page=homepage&action=show");
-        } 
-	$records = array(accounts::findOne($userID)); 
-        self::getTemplate('all_accounts', $records);     
+        $records = accounts::findAll();
+        self::getTemplate('all_accounts', $records);
     }
     //to call the show function the url is called with a post to: index.php?page=task&action=create
     //this is a function to create new tasks
