@@ -43,7 +43,9 @@ class tasksController extends http\controller
 
     public static function create()
     {
-        print_r($_POST);
+	 $record = '';
+         self::getTemplate('create_task', $record);
+        
     }
 
     //this is the function to view edit record form
