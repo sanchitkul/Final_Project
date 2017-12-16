@@ -22,7 +22,9 @@ class accountsController extends http\controller
 		$userID = $_SESSION["userID"];
 		if(!$userID) {
 			header("Location: index.php?page=homepage&action=show");
-        }      
+        } 
+	$records = array(accounts::findOne($userID)); 
+        self::getTemplate('all_accounts', $records);     
     }
     //to call the show function the url is called with a post to: index.php?page=task&action=create
     //this is a function to create new tasks
