@@ -89,6 +89,7 @@ class routes
         $route->controller = 'tasksController';
         $route->method = 'delete';
         $routes[] = $route;
+        
         $route = new route();
         $route->http_method = 'POST';
         $route->action = 'delete';
@@ -96,6 +97,7 @@ class routes
         $route->controller = 'accountsController';
         $route->method = 'delete';
         $routes[] = $route;
+
         $route = new route();
         $route->http_method = 'GET';
         $route->action = 'edit';
@@ -103,6 +105,7 @@ class routes
         $route->controller = 'accountsController';
         $route->method = 'edit';
         $routes[] = $route;
+        
         $route = new route();
         $route->http_method = 'POST';
         $route->action = 'save';
@@ -153,6 +156,23 @@ class routes
 
         $route = new route();
         $route->http_method = 'GET';
+        $route->action = 'create';
+        $route->page = 'tasks';
+        $route->controller = 'tasksController';
+        $route->method = 'newTodo';
+        $routes[] = $route;
+
+        $route = new route();
+        $route->http_method = 'POST';
+        $route->action = 'store';
+        $route->page = 'tasks';
+        $route->controller = 'tasksController';
+        $route->method = 'store';
+        $routes[] = $route;
+        
+
+        $route = new route();
+        $route->http_method = 'GET';
         $route->action = 'oneUser';
         $route->page = 'tasks';
         $route->controller = 'tasksController';
@@ -167,7 +187,93 @@ class routes
         $route->method = 'create';
         $routes[] = $route;
 
+        $route = new route();
+        $route->http_method = 'POST';
+        $route->action = 'create';
+        $route->page = 'tasks';
+        $route->controller = 'tasksController';
+        $route->method ='store';
+        $routes[] = $route;
+
         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         return $routes;
     }
     public static function create($http_method,$action,$page,$controller,$method) {
