@@ -40,11 +40,14 @@ class tasksController extends http\controller
     }
     public static function create()
     {
-        print_r($_POST);
+         session_start();
+         //$email = $_SESSION['email'];
+         self::getTemplate('new_task');
     }
     //this is the function to view edit record form
     public static function edit()
     {
+
         $record = todos::findOne($_REQUEST['id']);
         self::getTemplate('edit_task', $record);
     }
@@ -57,11 +60,13 @@ class tasksController extends http\controller
         print_r($_POST);
     }
     public static function save() {
-        session_start();
-        $task = new todo();
-        $task->body = $_POST['body'];
-        $task->ownerid = $_SESSION['userID'];
+        $task = todos::findOne($_REQUEST['id']);
+        $task->message = $_POST['message'];
+        $task->duedate = $_POST['duedate'];
+        $task->owneremail = $_POST['owneremail'];
+        $task->isdone = $_POST['isdone'];
         $task->save();
+        header("Location: index.php?page=tasks&action=all");
     }
     //this is the delete function.  You actually return the edit form and then there should be 2 forms on that.
     //One form is the todo and the other is just for the delete button
