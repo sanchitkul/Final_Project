@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Created by PhpStorm.
  * User: kwilliams
@@ -60,10 +60,15 @@ class accountsController extends http\controller
             //You can make a template for errors called error.php
             // and load the template here with the error you want to show.
            // echo 'already registered';
-            $error = 'already registered';
+           $error = 'already registered';
             self::getTemplate('error', $error);
         }
     }
+    public static function store1()
+    {
+        print_r($_POST);
+    }
+
     public static function edit()
     {
         $record = accounts::findOne($_REQUEST['id']);
@@ -80,7 +85,7 @@ class accountsController extends http\controller
         $user->birthday = $_POST['birthday'];
         $user->gender = $_POST['gender'];
         $user->save();
-        header("Location: index.php?page=accounts&action=all");
+        header("Location: index.php");
     }
     public static function allOneUser()
     {
@@ -102,23 +107,24 @@ class accountsController extends http\controller
         //you might want to add something that handles if the password is invalid, you could add a page template and direct to that
         //after you login you can use the header function to forward the user to a page that displays their tasks.
         //        $record = accounts::findUser($_POST['email']);
-        //$record = new account();
-        $record = accounts::findUserbyEmail($_REQUEST['email']);
-        if ($record == FALSE) 
+        //$user = new account();
+        $user = accounts::findUserbyEmail($_POST['email']);
+        if ($user == FALSE) 
         {
             echo 'user not found';
         } 
         else 
         {
-            if($record->checkPassword($_POST['password']) == TRUE) 
+            if($user->checkPassword($_POST['password']) == TRUE) 
             {
                // echo 'login';
                 session_start();
-                $_SESSION["userID"] = $record->id;
-                $_SESSION["userEmail"] = $record->email;
+                $_SESSION["userID"] = $user->id;
+                $_SESSION["userEmail"] = $user->email;
                 //forward the user to the show all todos page
+                
                 //print_r($_SESSION);
-                header('Location: index.php?page=tasks&action=oneUser&id='.$record->id);
+                header('Location: index.php?page=tasks&action=oneUser&id='.$user->id);
             } 
             else 
             {
@@ -128,3 +134,8 @@ class accountsController extends http\controller
         }
     }
 }
+
+
+
+
+
