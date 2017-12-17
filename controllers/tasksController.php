@@ -19,16 +19,12 @@ class tasksController extends http\controller
     public static function all()
     {
         $records = todos::findAll();
-        /*session_start();
-           if(key_exists('userID',$_SESSION)) {
-               $userID = $_SESSION['userID'];
-           } else {
-               echo 'you must be logged in to view tasks';
-           }
-        $userID = $_SESSION['userID'];
-        $records = todos::findTasksbyID($userID);
-        */
         self::getTemplate('all_tasks', $records);
+    }
+    public static function newTodo()
+    {
+        $todo = new todo();
+        self::getTemplate('new_task', $todo);
     }
     //to call the show function the url is called with a post to: index.php?page=task&action=create
     //this is a function to create new tasks
@@ -40,9 +36,8 @@ class tasksController extends http\controller
     }
     public static function create()
     {
-         session_start();
-         //$email = $_SESSION['email'];
-         self::getTemplate('new_task');
+       self::getTemplate('new_task');
+        
     }
     //this is the function to view edit record form
     public static function edit()
@@ -54,19 +49,33 @@ class tasksController extends http\controller
     //this would be for the post for sending the task edit form
     public static function store()
     {
-        $record = todos::findOne($_REQUEST['id']);
-        $record->body = $_REQUEST['body'];
+        session_start();
+        $record = new todo();
+        //$record = todos::findOne($_REQUEST['id']);
+        $record->owneremail = $_POST['owneremail'];
+        $record->ownerid = $_POST['ownerid'];
+        $record->createddate = $_POST['createddate'];
+        $record->duedate = $_POST['duedate'];
+        $record->message = $_POST['message'];
+        $record->isdone = $_POST['isdone'];
         $record->save();
-        print_r($_POST);
+        header('Location: index.php?page=accounts&action=oneUser&id='.$_SESSION["userID"]);
+        
     }
-    public static function save() {
-        $task = todos::findOne($_REQUEST['id']);
-        $task->message = $_POST['message'];
-        $task->duedate = $_POST['duedate'];
-        $task->owneremail = $_POST['owneremail'];
-        $task->isdone = $_POST['isdone'];
-        $task->save();
-        header("Location: index.php?page=tasks&action=all");
+    public static function update()
+    {
+        $records = todos::findOne($_REQUEST['id']);
+        $record = new todo();
+        $record->id=$records->id;
+        $record->owneremail=$_POST['owneremail'];
+        $record->ownerid=$_POST['ownerid'];
+        $record->createddate=$_POST['createddate'];
+        $record->duedate=$_POST['duedate'];
+        $record->message=$_POST['message'];
+        $record->isdone=$_POST['isdone'];
+        $record->save();
+        session_start();
+        header('Location: index.php?page=tasks&action=oneUser&id='.$_SESSION["userID"]);
     }
     //this is the delete function.  You actually return the edit form and then there should be 2 forms on that.
     //One form is the todo and the other is just for the delete button
@@ -74,6 +83,8 @@ class tasksController extends http\controller
     {
         $record = todos::findOne($_REQUEST['id']);
         $record->delete();
-        print_r($_POST);
+        session_start();
+        header('Location: index.php?page=tasks&action=oneUser&id='.$_SESSION["userID"]);
+        //print_r($_POST);
     }
 }
