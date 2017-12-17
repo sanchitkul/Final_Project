@@ -5,8 +5,6 @@
  * Date: 11/27/17
  * Time: 5:32 PM
  */
-
-
 //each page extends controller and the index.php?page=tasks causes the controller to be called
 class tasksController extends http\controller
 {
@@ -17,76 +15,60 @@ class tasksController extends http\controller
         $record = todos::findOne($_REQUEST['id']);
         self::getTemplate('show_task', $record);
     }
-
     //to call the show function the url is index.php?page=task&action=list_task
-
     public static function all()
     {
-        if(key_exists('userID',$_SESSION)) {
-           $userID = $_SESSION['userID'];
-        } else {
-           header("Location: index.php?page=accounts&action=all");
-        }
+        $records = todos::findAll();
+        /*session_start();
+           if(key_exists('userID',$_SESSION)) {
+               $userID = $_SESSION['userID'];
+           } else {
+               echo 'you must be logged in to view tasks';
+           }
         $userID = $_SESSION['userID'];
         $records = todos::findTasksbyID($userID);
-        
+        */
         self::getTemplate('all_tasks', $records);
-        
     }
-
-    public static function allOneUser()
+    //to call the show function the url is called with a post to: index.php?page=task&action=create
+    //this is a function to create new tasks
+    //you should check the notes on the project posted in moodle for how to use active record here
+    public static function oneUser()
     {
-        $record = todos::findTasksbyID($_REQUEST['id']);
-        self::getTemplate('all_tasks', $record);
+        $records = todos::findTasksbyID($_REQUEST['id']);
+        self::getTemplate('all_tasks', $records);
     }
-
-
     public static function create()
     {
-        self::getTemplate('new_task');
+        print_r($_POST);
     }
-    // this is function to add task
-    
-    public static function addTask()
+    //this is the function to view edit record form
+    public static function edit()
     {
-        session_start();
-        $record = new todo();
-        $record->owneremail = $_SESSION["userEmail"];
-        $record->ownerid = $_SESSION["userID"];
-        $record->createddate = $_POST['createddate'];
-        $record->duedate = $_POST['duedate'];
-        $record->message = $_POST['message'];
-        $record->isdone = $_POST['isdone'];
-        $record->save();
-        header('Location: index.php?page=tasks&action=allOneUser&id='.$_SESSION["userID"]);
+        $record = todos::findOne($_REQUEST['id']);
+        self::getTemplate('edit_task', $record);
     }
-
-   //this is the function to view edit record form
-   
-    public static function update()
+    //this would be for the post for sending the task edit form
+    public static function store()
     {
-        $records = todos::findOne($_REQUEST['id']);
-        $record = new todo();
-        $record->id=$records->id;
-        $record->owneremail=$_POST['owneremail'];
-        $record->ownerid=$_POST['ownerid'];
-        $record->createddate=$_POST['createddate'];
-        $record->duedate=$_POST['duedate'];
-        $record->message=$_POST['message'];
-        $record->isdone=$_POST['isdone'];
+        $record = todos::findOne($_REQUEST['id']);
+        $record->body = $_REQUEST['body'];
         $record->save();
-        session_start();
-        header('Location: index.php?page=tasks&action=allOneUser&id='.$_SESSION["userID"]);
+        print_r($_POST);
     }
-}
-   //this is function to delete task
+    public static function save() {
+        session_start();
+        $task = new todo();
+        $task->body = $_POST['body'];
+        $task->ownerid = $_SESSION['userID'];
+        $task->save();
+    }
+    //this is the delete function.  You actually return the edit form and then there should be 2 forms on that.
+    //One form is the todo and the other is just for the delete button
     public static function delete()
     {
         $record = todos::findOne($_REQUEST['id']);
         $record->delete();
-        session_start();
-        header('Location: index.php?page=tasks&action=allOneUser&id='.$_SESSION["userID"]);
-        
+        print_r($_POST);
     }
-
 }
