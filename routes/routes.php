@@ -126,48 +126,40 @@ class routes
         $route->controller = 'accountsController';
         $route->method = 'store';
         $routes[] = $route;
-		
-		
-		
-		$route = new route();
+
+        $route = new route();
         $route->http_method = 'POST';
-        $route->action = 'store';
-        $route->page = 'tasks';
-        $route->controller = 'tasksController';
-        $route->method = 'store';
-        $routes[] = $route;
-		
-		$route = new route();
-        $route->http_method = 'POST';
-        $route->action = 'save';
-        $route->page = 'tasks';
-        $route->controller = 'tasksController';
-        $route->method = 'save';
-        $routes[] = $route;
-		
-		$route = new route();
-        $route->http_method = 'GET';
         $route->action = 'create';
         $route->page = 'tasks';
         $route->controller = 'tasksController';
         $route->method = 'create';
         $routes[] = $route;
-		
-		$route = new route();
-        $route->http_method = 'GET';
-        $route->action = 'edit';
+        
+        $route = new route();
+        $route->http_method = 'POST';
+        $route->action = 'create';
         $route->page = 'tasks';
         $route->controller = 'tasksController';
-        $route->method = 'edit';
+        $route->method = 'create';
         $routes[] = $route;
-		
-		$route = new route();
-        $route->http_method = 'GET';
-        $route->action = 'logout';
+        //add tasks function
+        $route = new route();
+        $route->http_method = 'POST';
+        $route->action = 'save';
         $route->page = 'accounts';
-        $route->controller = 'accountsController';
-        $route->method = 'logout';
+        $route->controller = 'tasksController';
+        $route->method = 'save';
         $routes[] = $route;
+
+        $route = new route();
+        $route->http_method = 'GET';
+        $route->action = 'oneUser';
+        $route->page = 'tasks';
+        $route->controller = 'tasksController';
+        $route->method = 'oneUser';
+        $routes[] = $route;
+        
+        return $routes;
     }
     public static function create($http_method,$action,$page,$controller,$method) {
         $route = new route();
@@ -186,4 +178,3 @@ class route
     public $method;
     public $controller;
 }
-
