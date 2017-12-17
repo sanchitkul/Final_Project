@@ -17,11 +17,11 @@ class htmlTable
             $tableGen .= '<th>' . $heading . '</th>';
         }
         $tableGen .= '</tr>';
-        foreach ($array as $records) {
+        foreach ($array as $record) {
             $tableGen .= '<tr>';
             foreach ($record as $key => $value) {
                 if ($key == 'id') {
-                    $tableGen .= '<td><a href="index.php?page=' . $referingPage . '&action=show&id=' . $value . '">View</a></td>';
+                    $tableGen .= '<td><a href="index.php?page=' . $referingPage . '&action=show&id=' . $value . '">View</a><a href="index.php?page=' . $referingPage . '&action=edit&id=' .$value .'"> Edit Task </a></td>';
                 } else {
                     $tableGen .= '<td>' . $value . '</td>';
                 }
