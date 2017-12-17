@@ -1,4 +1,4 @@
-<!doctype html>
+ <!doctype html>
 
 <html lang="en">
 <head>
@@ -17,12 +17,20 @@
 
 <body>
 
+<a href="index.php">Homepage</a><br>
+
+<a href="index.php?page=tasks&action=create">Create New Task</a>
+
+<h1>Tasks List</h1>
+
 <?php
 //this is how you print something
-
-print utility\htmlTable::genarateTableFromMultiArray($data);
-
-
+//var_dump($data);
+if($data == false) {
+    echo '<p>You have no tasks.</p>';
+} else {
+    print utility\htmlTable::genarateTableFromMultiArray($data);
+}
 ?>
 
 
