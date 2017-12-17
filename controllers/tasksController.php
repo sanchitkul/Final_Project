@@ -14,7 +14,7 @@ class tasksController extends http\controller
     //to call the show function the url is index.php?page=task&action=show
     public static function show()
     {
-        $record = todos::findOne($_REQUEST['3']);
+        $record = todos::findOne($_REQUEST['id']);
         self::getTemplate('show_task', $record);
     }
 
@@ -22,75 +22,71 @@ class tasksController extends http\controller
 
     public static function all()
     {
-        $records = todos::findAll();
-        //session_start();
-        //$records = todos::findTasksbyID('$uderID')
-        //$records
+        if(key_exists('userID',$_SESSION)) {
+           $userID = $_SESSION['userID'];
+        } else {
+           header("Location: index.php?page=accounts&action=all");
+        }
+        $userID = $_SESSION['userID'];
+        $records = todos::findTasksbyID($userID);
+        
         self::getTemplate('all_tasks', $records);
-        //$userID = $_SESSION['userID'];
-
+        
     }
 
-    public static function one()
+    public static function allOneUser()
     {
-        $record = todos::findOne(2);
-        self::getTemplate('one_task',$record);
+        $record = todos::findTasksbyID($_REQUEST['id']);
+        self::getTemplate('all_tasks', $record);
     }
-    //to call the show function the url is called with a post to: index.php?page=task&action=create
-    //this is a function to create new tasks
 
-    //you should check the notes on the project posted in moodle for how to use active record here
 
     public static function create()
     {
-	 $record = '';
-         self::getTemplate('create_task', $record);
-        
+        self::getTemplate('new_task');
     }
-
-    //this is the function to view edit record form
-    public static function edit()
-    {
-        $record = todos::findOne($_REQUEST['id']);
-
-        self::getTemplate('edit_task', $record);
-
-    }
-
-    //this would be for the post for sending the task edit form
-    public static function store()
+    // this is function to add task
+    
+    public static function addTask()
     {
         session_start();
-
-        //$record = todos::findOne($_REQUEST['id']);
-        //$record->body = $_REQUEST['body'];
-        //$record->save();
-        $upRecord = new todo();
-        $record->body = $_REQUEST['body'];
-        
-        $upRecord->id = $_REQUEST['id'];
-        $upRecord->owneremail = $_POST['owneremail'];
-        $upRecord->duedate = $_POST['duedate'];
-        $upRecord->message = $_POST['message'];
-        $upRecord->save();
-        echo $upRecord;
-        self::getTemplate('show_task', $record);
-        print_r($_POST);
-
+        $record = new todo();
+        $record->owneremail = $_SESSION["userEmail"];
+        $record->ownerid = $_SESSION["userID"];
+        $record->createddate = $_POST['createddate'];
+        $record->duedate = $_POST['duedate'];
+        $record->message = $_POST['message'];
+        $record->isdone = $_POST['isdone'];
+        $record->save();
+        header('Location: index.php?page=tasks&action=allOneUser&id='.$_SESSION["userID"]);
     }
-    
-   public static function delete()
-   {
+
+   //this is the function to view edit record form
+   
+    public static function update()
+    {
+        $records = todos::findOne($_REQUEST['id']);
+        $record = new todo();
+        $record->id=$records->id;
+        $record->owneremail=$_POST['owneremail'];
+        $record->ownerid=$_POST['ownerid'];
+        $record->createddate=$_POST['createddate'];
+        $record->duedate=$_POST['duedate'];
+        $record->message=$_POST['message'];
+        $record->isdone=$_POST['isdone'];
+        $record->save();
+        session_start();
+        header('Location: index.php?page=tasks&action=allOneUser&id='.$_SESSION["userID"]);
+    }
+}
+   //this is function to delete task
+    public static function delete()
+    {
         $record = todos::findOne($_REQUEST['id']);
-	$record->delete();
-     	$records = todos::findAll();
-        header("Location: index.php?page=tasks&action=all");
-	   
+        $record->delete();
+        session_start();
+        header('Location: index.php?page=tasks&action=allOneUser&id='.$_SESSION["userID"]);
+        
     }
-    
-    private static function validate($record) 
-	{
-	    return true;
-	}
 
 }
