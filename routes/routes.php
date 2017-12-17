@@ -158,6 +158,15 @@ class routes
         $route->controller = 'tasksController';
         $route->method = 'oneUser';
         $routes[] = $route;
+
+        $route = new route();
+        $route->http_method = 'GET';
+        $route->action = 'create';
+        $route->page = 'tasks';
+        $route->controller = 'tasksController';
+        $route->method = 'create';
+        $routes[] = $route;
+
         
         return $routes;
     }
