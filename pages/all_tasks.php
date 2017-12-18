@@ -22,14 +22,21 @@
 
 <form action="index.php?page=accounts&action=profile" method="post">
 <li><button type="submit">My Profile</button></li>
+</form>
 
 
 <?php
 //this is how you print something
 
+if(!empty($data)) 
+{
+	print utility\htmlTable::genarateTableFromMultiArray($data);
 
-print utility\htmlTable::genarateTableFromMultiArray($data);
-
+} 
+else 
+{
+	echo 'You currently have no tasks';
+}
 
 ?>
 
