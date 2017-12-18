@@ -1,4 +1,4 @@
-<?php
+    <?php
 /**
  * Created by PhpStorm.
  * User: kwilliams
@@ -60,15 +60,10 @@ class accountsController extends http\controller
             //You can make a template for errors called error.php
             // and load the template here with the error you want to show.
            // echo 'already registered';
-           $error = 'already registered';
+            $error = 'already registered';
             self::getTemplate('error', $error);
         }
     }
-    public static function store1()
-    {
-        print_r($_POST);
-    }
-
     public static function edit()
     {
         $record = accounts::findOne($_REQUEST['id']);
@@ -85,13 +80,40 @@ class accountsController extends http\controller
         $user->birthday = $_POST['birthday'];
         $user->gender = $_POST['gender'];
         $user->save();
-        header("Location: index.php");
+        header("Location: index.php?page=accounts&action=all");
     }
-    public static function allOneUser()
+
+    public static function show_profile()
     {
-        $record = todos::findTasksbyID($_REQUEST['id']);
-        self::getTemplate('all_tasks', $record);
+        session_start();
+        $record = accounts::findOne($_SESSION['userID']);
+        self::getTemplate('show_account', $record);
     }
+    public static function edit_profile()
+    {
+        session_start();
+        $record = accounts::findOne($_SESSION['userID']);
+        self::getTemplate('edit_account', $record);
+    }
+
+    public static function update_profile()
+    {
+        $records = accounts::findOne($_REQUEST['id']);
+        $record = new account();
+        $record->id=$records->id;
+        $record->email=$_POST['email'];
+        $record->fname=$_POST['fname'];
+        $record->lname=$_POST['lname'];
+        $record->phone=$_POST['phone'];
+        $record->birthday=$_POST['birthday'];
+        $record->gender=$_POST['gender'];
+        $record->save();
+        session_start();
+        header('Location: index.php?page=accounts&action=showProf');
+    }
+
+
+
     public static function delete() 
     {
         $record = accounts::findOne($_REQUEST['id']);
@@ -107,8 +129,7 @@ class accountsController extends http\controller
         //you might want to add something that handles if the password is invalid, you could add a page template and direct to that
         //after you login you can use the header function to forward the user to a page that displays their tasks.
         //        $record = accounts::findUser($_POST['email']);
-        //$user = new account();
-        $user = accounts::findUserbyEmail($_POST['email']);
+        $user = accounts::findUserbyEmail($_REQUEST['email']);
         if ($user == FALSE) 
         {
             echo 'user not found';
@@ -122,20 +143,18 @@ class accountsController extends http\controller
                 $_SESSION["userID"] = $user->id;
                 $_SESSION["userEmail"] = $user->email;
                 //forward the user to the show all todos page
-                
                 //print_r($_SESSION);
                 header('Location: index.php?page=tasks&action=oneUser&id='.$user->id);
             } 
             else 
             {
                 echo 'password does not match';
-
             }
         }
     }
+     public static function logout()
+    {
+        session_destroy();
+        header('Location: index.php');
+    }
 }
-
-
-
-
-
