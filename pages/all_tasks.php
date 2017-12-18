@@ -16,21 +16,21 @@
 </head>
 
 <body>
+<a href="index.php">Logout</a><br>
 
-<a href="index.php">Homepage</a><br>
+<a href="index.php?page=tasks&action=create">Create New Task</a><br>
 
-<a href="index.php?page=tasks&action=create">Create New Task</a>
+<form action="index.php?page=accounts&action=profile" method="post">
+<li><button type="submit">My Profile</button></li>
 
-<h1>Tasks List</h1>
 
 <?php
 //this is how you print something
-//var_dump($data);
-if($data == false) {
-    echo '<p>You have no tasks.</p>';
-} else {
-    print utility\htmlTable::genarateTableFromMultiArray($data);
-}
+
+
+print utility\htmlTable::genarateTableFromMultiArray($data);
+
+
 ?>
 
 
