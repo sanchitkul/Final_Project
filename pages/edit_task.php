@@ -8,37 +8,25 @@
     <meta name="description" content="The HTML5 Herald">
     <meta name="author" content="SitePoint">
 
-    <!--<link rel="stylesheet" href="css/styles.css?v=1.0">-->
+    <link rel="stylesheet" href="css/styles.css?v=1.0">
 
     <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <link rel="stylesheet" href="css/style.css">
     <![endif]-->
 </head>
 
 <body>
 
-        <div class="container">
-            <form action="index.php?page=tasks&action=edit" method="post">
+<form action="index.php?page=tasks&action=update&id=<?php echo $data->id; ?>" method="post">
 
+    Created Date : <input type="text" name="createddate" id='createddate' value="<?php echo $data->createddate; ?>"><br>
 
-
-                <input type="datetime" placeholder="Created Date" name="createddate"><br>
-
-
-                <input type="datetime" placeholder="Due Date" name="duedate"><br>
-
-
-                <input type="text" placeholder="Message" name="message"><br>
-
-
-                <input type="number" placeholder="Is Done" name="isdone"><br>
-
-                <button type="submit" name="update">Update</button>
-            </form>
-        </div>
-
+    Due Date: <input type="text" name="duedate" id='duedate' value="<?php echo $data->duedate; ?>"><br>
+    Message: <input type="text" name="message" id='message' value="<?php echo $data->message; ?>"><br>
+    Isdone: <input type="text" name="isdone" id="isdone" value="<?php echo $data->isdone; ?>"><br>
+    
+    <input type="submit" value="Submit form">
+</form>
 
 <script src="js/scripts.js"></script>
 </body>
