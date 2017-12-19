@@ -19,7 +19,7 @@
 
 <form action="index.php?page=tasks&action=update&id=<?php echo $data->id; ?>" method="post">
 
-    Created Date : <input type="text" name="createddate" id='createddate' value="<?php echo $data->createddate; ?>"><br>
+    
 
     Due Date: <input type="text" name="duedate" id='duedate' value="<?php echo $data->duedate; ?>"><br>
     Message: <input type="text" name="message" id='message' value="<?php echo $data->message; ?>"><br>
