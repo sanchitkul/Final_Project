@@ -75,21 +75,7 @@ class accountsController extends http\controller
         self::getTemplate('edit_account', $record);
     }
 
-    public static function update_profile()
-    {
-        $records = accounts::findOne($_REQUEST['id']);
-        $record = new account();
-        $record->id=$records->id;
-        $record->email=$_POST['email'];
-        $record->fname=$_POST['fname'];
-        $record->lname=$_POST['lname'];
-        $record->phone=$_POST['phone'];
-        $record->birthday=$_POST['birthday'];
-        $record->gender=$_POST['gender'];
-        $record->save();
-        session_start();
-        header('Location: index.php?page=accounts&action=showProf');
-    }
+   
 
 
 
