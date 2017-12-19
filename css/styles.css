@@ -1,0 +1,47 @@
+h1 {
+text-align: center;
+color: black;
+     text-shadow: 2px 2px 5px black; 
+}
+
+h2 {
+text-align: left;
+color: black;
+text-shadow: 2px 2px 5px green;
+}
+
+body {
+background: url("https://previews.123rf.com/images/kapishp/kapishp0706/kapishp070600014/966676-clean-post-it-notes-on-a-wood-background-with-push-pins-Stock-Photo.jpg");
+background-size: cover;
+}
+.btn-info{
+background-color: white;
+color: white;
+}
+    
+table {
+font-family: "Times New Roman", Times, serif;
+border-collapse: collapse;
+width: 100%;
+}
+
+td, th {
+border: 2px solid black;
+text-align: left;
+padding: 10px;    
+}
+
+tr:nth-child(even) {
+background-color: #00000;
+}
+
+th {
+padding-top: 10px;
+padding-bottom: 10px;
+text-align: left;
+    background-color: #00000;
+    color: white;
+    }
+tr:nth-child(odd) {
+    background-color: #B0C4DE;
+}
