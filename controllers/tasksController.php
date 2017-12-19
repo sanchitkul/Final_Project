@@ -19,12 +19,16 @@ class tasksController extends http\controller
     public static function all()
     {
         $records = todos::findAll();
+        /*session_start();
+           if(key_exists('userID',$_SESSION)) {
+               $userID = $_SESSION['userID'];
+           } else {
+               echo 'you must be logged in to view tasks';
+           }
+        $userID = $_SESSION['userID'];
+        $records = todos::findTasksbyID($userID);
+        */
         self::getTemplate('all_tasks', $records);
-    }
-    public static function newTodo()
-    {
-        $todo = new todo();
-        self::getTemplate('new_task', $todo);
     }
     //to call the show function the url is called with a post to: index.php?page=task&action=create
     //this is a function to create new tasks
@@ -36,47 +40,60 @@ class tasksController extends http\controller
     }
     public static function create()
     {
-       self::getTemplate('new_task');
-        
+        self::getTemplate('new_tasks');
+    }
+    
+    public static function addTask()
+    {
+        session_start();
+        $record = new todo();
+        $record->owneremail = $_SESSION["userEmail"];
+        $record->ownerid = $_SESSION["userID"];
+        $record->createddate = $_POST['createddate'];
+        $record->duedate = $_POST['duedate'];
+        $record->message = $_POST['message'];
+        $record->isdone = $_POST['isdone'];
+        $record->save();
+        header('Location: index.php?page=tasks&action=oneUser&id='.$_SESSION["userID"]);
     }
     //this is the function to view edit record form
     public static function edit()
     {
-
         $record = todos::findOne($_REQUEST['id']);
         self::getTemplate('edit_task', $record);
     }
     //this would be for the post for sending the task edit form
     public static function store()
     {
-        session_start();
-        $record = new todo();
-        //$record = todos::findOne($_REQUEST['id']);
-        $record->owneremail = $_POST['owneremail'];
-        $record->ownerid = $_POST['ownerid'];
-        $record->createddate = $_POST['createddate'];
-        $record->duedate = $_POST['duedate'];
-        $record->message = $_POST['message'];
-        $record->isdone = $_POST['isdone'];
+        $record = todos::findOne($_REQUEST['id']);
+        $record->body = $_REQUEST['body'];
         $record->save();
-        header('Location: index.php?page=accounts&action=oneUser&id='.$_SESSION["userID"]);
-        
+        print_r($_POST);
     }
+    public static function save() {
+        session_start();
+        $task = new todo();
+        $task->body = $_POST['body'];
+        $task->ownerid = $_SESSION['userID'];
+        $task->createddate = $_POST['createddate'];
+        $task->duedate = $_POST['duedate'];
+        $task->message = $_POST['message'];
+        $task->isdone = $_POST['isdone'];
+        $task->save();
+    }
+
     public static function update()
     {
-        $records = todos::findOne($_REQUEST['id']);
-        $record = new todo();
-        $record->id=$records->id;
-        $record->owneremail=$_POST['owneremail'];
-        $record->ownerid=$_POST['ownerid'];
-        $record->createddate=$_POST['createddate'];
-        $record->duedate=$_POST['duedate'];
-        $record->message=$_POST['message'];
-        $record->isdone=$_POST['isdone'];
+        $record = todos::findOne($_REQUEST['id']);
+        $record->createddate = $_REQUEST['createddate'];
+        $record->duedate = $_REQUEST['duedate'];
+        $record->message = $_REQUEST['message'];
+        $record->isdone = $_REQUEST['isdone'];
         $record->save();
         session_start();
         header('Location: index.php?page=tasks&action=oneUser&id='.$_SESSION["userID"]);
     }
+
     //this is the delete function.  You actually return the edit form and then there should be 2 forms on that.
     //One form is the todo and the other is just for the delete button
     public static function delete()
@@ -85,6 +102,6 @@ class tasksController extends http\controller
         $record->delete();
         session_start();
         header('Location: index.php?page=tasks&action=oneUser&id='.$_SESSION["userID"]);
-        //print_r($_POST);
+        
     }
 }
